@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liam O'Shea — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&family=Courier+Prime:ital@0;1&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#e8e0cc;--parch:#d4c9a8;--warm:#c8b98a;
+  --brown:#2a1f0e;--rust:#d94f1a;--gold:#e09010;
+  --teal:#1a8a8a;--sand:#8c7a52;--dk:#1a1208;
+  --wbody:#ddd4b8;--wdark:#c4b896;--wline:#b8a87a;--wdeep:#a09070;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--brown);font-family:'Barlow Condensed',sans-serif;overflow-x:hidden;cursor:none;margin:0}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");opacity:.3;pointer-events:none;z-index:1000}
+#cur{position:fixed;width:11px;height:11px;background:var(--rust);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply}
+#cur-r{position:fixed;width:34px;height:34px;border:1.5px solid var(--rust);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.45}
+.stripes{display:flex;flex-direction:column;gap:3px}
+.stripe{height:7px;border-radius:2px}
+.s1{background:var(--rust)}.s2{background:var(--gold)}.s3{background:var(--teal)}.s4{background:var(--sand)}.s5{background:var(--brown);width:70%}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;border-bottom:1px solid rgba(42,31,14,.12);background:rgba(232,224,204,.92);backdrop-filter:blur(8px)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--brown);text-decoration:none}
+.nav-logo span{color:var(--rust)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sand);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--rust)}
+.nav-tag{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:1.5px;color:var(--sand);border:1px solid var(--sand);padding:4px 10px}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:80px;position:relative;overflow:hidden}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 48px 80px 72px;position:relative;z-index:2}
+.eyebrow{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--sand);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--sand)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,10vw,130px);line-height:.92;letter-spacing:2px;color:var(--brown);margin-bottom:8px}
+h1 .acc{color:var(--rust)}
+h1 .out{-webkit-text-stroke:2px var(--brown);color:transparent}
+.hero-sub{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:300;color:var(--sand);letter-spacing:6px;text-transform:uppercase;margin-top:16px;margin-bottom:48px}
+.hero-stripes{margin-bottom:48px}.hero-stripes .stripes{width:280px}
+.ctas{display:flex;gap:16px;align-items:center}
+.btn{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:14px 32px;cursor:none;text-decoration:none;display:inline-block;transition:all .2s;border:none}
+.btn-p{color:var(--cream);background:var(--brown)}.btn-p:hover{background:var(--rust)}
+.btn-g{color:var(--brown);background:transparent;border:1px solid var(--brown)}.btn-g:hover{background:var(--brown);color:var(--cream)}
+.hero-right{display:flex;align-items:center;justify-content:center;padding:80px 72px 80px 48px;background:var(--cream);position:relative}
+
+/* WALKMAN SCENE */
+.walkman-scene{position:relative;width:340px;height:520px;perspective:800px}
+
+/* CASSETTE — starts high above, hidden */
+.tape{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:220px;
+  opacity:0;
+  transform:translateX(-50%) translateY(-240px) rotate(-6deg);
+  z-index:20;
+  filter:drop-shadow(0 8px 16px rgba(42,31,14,0.18));
+  animation:tapeFall 0.7s cubic-bezier(0.22,1,0.36,1) 1.4s forwards;
+}
+
+/* Cassette drops into well, bounces slightly, settles */
+@keyframes tapeFall{
+  0%  {opacity:1;transform:translateX(-50%) translateY(-240px) rotate(-6deg)}
+  60% {opacity:1;transform:translateX(-50%) translateY(115px) rotate(0deg)}
+  75% {opacity:1;transform:translateX(-50%) translateY(108px) rotate(0deg)}
+  88% {opacity:1;transform:translateX(-50%) translateY(114px) rotate(0deg)}
+  100%{opacity:1;transform:translateX(-50%) translateY(111px) rotate(0deg)}
+}
+
+/* Cassette fades slightly as door closes over it */
+.tape.hidden-by-door{animation:cassetteFade .3s ease 2.5s forwards}
+@keyframes cassetteFade{
+  0%{opacity:1}
+  100%{opacity:0.0}
+}
+
+/* WALKMAN BODY */
+.wbody{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:320px;z-index:5}
+
+/* DOOR — positioned over the cassette well area, hinge at BOTTOM, opens upward away from viewer */
+.wdoor{
+  position:absolute;
+  bottom:188px;
+  left:50%;
+  width:320px;
+  z-index:15;
+  transform-origin:bottom center;
+  transform:translateX(-50%) rotateX(0deg);
+  animation:
+    doorOpen  0.6s cubic-bezier(0.4,0,0.2,1) 0.3s forwards,
+    doorClose 0.5s cubic-bezier(0.34,1.56,0.64,1) 2.15s forwards;
+}
+@keyframes doorOpen{
+  0%  {transform:translateX(-50%) rotateX(0deg)}
+  100%{transform:translateX(-50%) rotateX(-112deg)}
+}
+@keyframes doorClose{
+  0%  {transform:translateX(-50%) rotateX(-112deg)}
+  70% {transform:translateX(-50%) rotateX(4deg)}
+  100%{transform:translateX(-50%) rotateX(0deg)}
+}
+
+/* Reel spin — starts after door fully closes + cassette settles */
+.reel{transform-origin:center}
+.reel.spin{animation:rSpin 2.4s linear infinite}
+@keyframes rSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* TICKER */
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cur-r"></div>
+
+<nav>
+  <a href="#" class="nav-logo">L<span>.</span>O'SHEA</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <span class="nav-tag">Available for work</span>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">Product Designer &amp; UX Researcher</div>
+    <h1>LIAM<br><span class="acc">O'</span><span class="out">SHEA</span></h1>
+    <div class="hero-sub">Santa Barbara, CA</div>
+    <div class="hero-stripes">
+      <div class="stripes">
+        <div class="stripe s1"></div><div class="stripe s2"></div>
+        <div class="stripe s3"></div><div class="stripe s4"></div>
+        <div class="stripe s5"></div>
+      </div>
+    </div>
+    <div class="ctas">
+      <a href="#work" class="btn btn-p">View My Work</a>
+      <a href="#contact" class="btn btn-g">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="walkman-scene">
+
+      <!-- CASSETTE — falls from above into the open door -->
+      <div class="tape" id="cassette">
+        <svg viewBox="0 0 220 142" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <rect x="2" y="2" width="216" height="138" rx="8" fill="#d8ceb0" stroke="#b8a87a" stroke-width="1"/>
+          <rect x="12" y="12" width="196" height="72" rx="4" fill="#e2d8bc" stroke="#c4b896" stroke-width=".75"/>
+          <rect x="12" y="62" width="196" height="9"  fill="#d94f1a" opacity=".85"/>
+          <rect x="12" y="71" width="196" height="6"  fill="#e09010" opacity=".85"/>
+          <rect x="12" y="77" width="196" height="6"  fill="#1a8a8a" opacity=".85"/>
+          <text x="110" y="34" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" fill="#2a1f0e" letter-spacing="4" opacity=".8">LIAM O'SHEA</text>
+          <text x="110" y="47" text-anchor="middle" font-family="'Courier Prime',monospace" font-size="6.5" fill="#8c7a52" letter-spacing="2">PRODUCT DESIGN · UX RESEARCH</text>
+          <text x="110" y="58" text-anchor="middle" font-family="'Courier Prime',monospace" font-size="6" fill="#d94f1a" letter-spacing="2">SIDE A · 46 MIN</text>
+          <rect x="38" y="96" width="144" height="32" rx="4" fill="#c4b896" stroke="#b8a87a" stroke-width=".75"/>
+          <g id="t-rl" class="reel" style="transform-origin:74px 112px">
+            <circle cx="74" cy="112" r="12" fill="#d0c4a0" stroke="#b8a87a" stroke-width="1.5"/>
+            <circle cx="74" cy="112" r="7"  fill="#c4b896" stroke="#b8a87a" stroke-width=".75"/>
+            <circle cx="74" cy="112" r="2"  fill="#d94f1a"/>
+            <line x1="74" y1="105" x2="74" y2="100" stroke="#b8a87a" stroke-width="1.5"/>
+            <line x1="74" y1="119" x2="74" y2="124" stroke="#b8a87a" stroke-width="1.5"/>
+            <line x1="67"  y1="112" x2="62"  y2="112" stroke="#b8a87a" stroke-width="1.5"/>
+            <line x1="81"  y1="112" x2="86"  y2="112" stroke="#b8a87a" stroke-width="1.5"/>
+          </g>
+          <g id="t-rr" class="reel" style="transform-origin:146px 112px">
+            <circle cx="146" cy="112" r="12" fill="#d0c4a0" stroke="#b8a87a" stroke-width="1.5"/>
+            <circle cx="146" cy="112" r="7"  fill="#c4b896" stroke="#b8a87a" stroke-width=".75"/>
+            <circle cx="146" cy="112" r="2"  fill="#e09010"/>
+            <line x1="146" y1="105" x2="146" y2="100" stroke="#b8a87a" stroke-width="1.5"/>
+            <line x1="146" y1="119" x2="146" y2="124" stroke="#b8a87a" stroke-width="1.5"/>
+            <line x1="139" y1="112" x2="134" y2="112" stroke="#b8a87a" stroke-width="1.5"/>
+            <line x1="153" y1="112" x2="158" y2="112" stroke="#b8a87a" stroke-width="1.5"/>
+          </g>
+          <path d="M86 112 Q110 104 134 112" stroke="#b8a87a" stroke-width=".75" fill="none"/>
+          <circle cx="10"  cy="10"  r="3" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+          <line x1="8" y1="10" x2="12" y2="10" stroke="#b8a87a" stroke-width=".75"/>
+          <circle cx="210" cy="10"  r="3" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+          <line x1="208" y1="10" x2="212" y2="10" stroke="#b8a87a" stroke-width=".75"/>
+          <circle cx="10"  cy="132" r="3" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+          <circle cx="210" cy="132" r="3" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+          <g fill="#d94f1a" opacity=".6">
+            <circle cx="188" cy="16" r="1.5"/><circle cx="196" cy="16" r="1.5"/><circle cx="204" cy="16" r="1.5"/>
+            <circle cx="188" cy="23" r="1.5"/><circle cx="196" cy="23" r="1.5"/><circle cx="204" cy="23" r="1.5"/>
+            <circle cx="188" cy="30" r="1.5"/><circle cx="196" cy="30" r="1.5"/><circle cx="204" cy="30" r="1.5"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- WALKMAN BODY -->
+      <div class="wbody">
+        <svg viewBox="0 0 320 460" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <rect x="0" y="0" width="320" height="460" rx="18" fill="#ddd4b8" stroke="#b8a87a" stroke-width="1.5"/>
+          <rect x="4" y="4" width="312" height="60" rx="15" fill="#e2d8bc" stroke="#c4b896" stroke-width=".5" opacity=".7"/>
+          <!-- transport controls -->
+          <rect x="80" y="14" width="160" height="34" rx="6" fill="#c8bfa0" stroke="#b8a87a" stroke-width="1"/>
+          <rect x="88"  y="18" width="30" height="24" rx="4" fill="#d4c9a8" stroke="#b8a87a" stroke-width=".75"/>
+          <polygon points="94,24 94,36 100,30" fill="#8c7a52" opacity=".8"/>
+          <polygon points="100,24 100,36 106,30" fill="#8c7a52" opacity=".8"/>
+          <rect x="122" y="18" width="30" height="24" rx="4" fill="#d4c9a8" stroke="#b8a87a" stroke-width=".75"/>
+          <polygon points="130,24 130,36 142,30" fill="#d94f1a" opacity=".9"/>
+          <rect x="156" y="18" width="30" height="24" rx="4" fill="#d4c9a8" stroke="#b8a87a" stroke-width=".75"/>
+          <polygon points="162,24 162,36 168,30" fill="#8c7a52" opacity=".8"/>
+          <polygon points="168,24 168,36 174,30" fill="#8c7a52" opacity=".8"/>
+          <rect x="190" y="18" width="30" height="24" rx="4" fill="#d4c9a8" stroke="#b8a87a" stroke-width=".75"/>
+          <rect x="198" y="24" width="14" height="12" rx="1.5" fill="#8c7a52" opacity=".8"/>
+          <rect x="224" y="18" width="28" height="24" rx="4" fill="#d4c9a8" stroke="#b8a87a" stroke-width=".75"/>
+          <polygon points="238,22 230,30 246,30" fill="#8c7a52" opacity=".8"/>
+          <rect x="230" y="31" width="16" height="3" rx="1" fill="#8c7a52" opacity=".8"/>
+          <!-- cassette well / window area -->
+          <rect x="28" y="62" width="264" height="200" rx="8" fill="#c8bfa0" stroke="#b8a87a" stroke-width="1"/>
+          <rect x="36" y="70" width="248" height="184" rx="5" fill="#bfb590" stroke="#a09070" stroke-width=".75"/>
+          <!-- reel hubs inside well -->
+          <g id="w-rl" class="reel" style="transform-origin:108px 166px">
+            <circle cx="108" cy="166" r="28" fill="#c8bfa0" stroke="#b8a87a" stroke-width="1"/>
+            <circle cx="108" cy="166" r="18" fill="#bfb590" stroke="#a09070" stroke-width=".75"/>
+            <circle cx="108" cy="166" r="6"  fill="#d94f1a" opacity=".7"/>
+            <line x1="108" y1="148" x2="108" y2="138" stroke="#a09070" stroke-width="2"/>
+            <line x1="108" y1="184" x2="108" y2="194" stroke="#a09070" stroke-width="2"/>
+            <line x1="90"  y1="166" x2="80"  y2="166" stroke="#a09070" stroke-width="2"/>
+            <line x1="126" y1="166" x2="136" y2="166" stroke="#a09070" stroke-width="2"/>
+            <line x1="95"  y1="153" x2="88"  y2="146" stroke="#a09070" stroke-width="1.5"/>
+            <line x1="121" y1="153" x2="128" y2="146" stroke="#a09070" stroke-width="1.5"/>
+          </g>
+          <g id="w-rr" class="reel" style="transform-origin:212px 166px">
+            <circle cx="212" cy="166" r="28" fill="#c8bfa0" stroke="#b8a87a" stroke-width="1"/>
+            <circle cx="212" cy="166" r="18" fill="#bfb590" stroke="#a09070" stroke-width=".75"/>
+            <circle cx="212" cy="166" r="6"  fill="#e09010" opacity=".7"/>
+            <line x1="212" y1="148" x2="212" y2="138" stroke="#a09070" stroke-width="2"/>
+            <line x1="212" y1="184" x2="212" y2="194" stroke="#a09070" stroke-width="2"/>
+            <line x1="194" y1="166" x2="184" y2="166" stroke="#a09070" stroke-width="2"/>
+            <line x1="230" y1="166" x2="240" y2="166" stroke="#a09070" stroke-width="2"/>
+            <line x1="199" y1="153" x2="192" y2="146" stroke="#a09070" stroke-width="1.5"/>
+            <line x1="225" y1="153" x2="232" y2="146" stroke="#a09070" stroke-width="1.5"/>
+          </g>
+          <path d="M136 200 Q160 188 184 200" stroke="#a09070" stroke-width="1" fill="none"/>
+          <!-- bottom panel -->
+          <rect x="14" y="276" width="292" height="112" rx="8" fill="#d4c9a8" stroke="#b8a87a" stroke-width=".75" opacity=".6"/>
+          <rect x="30"  y="292" width="100" height="6" rx="3" fill="#c4b896" stroke="#b8a87a" stroke-width=".75"/>
+          <rect x="30"  y="290" width="58"  height="10" rx="4" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+          <text x="30"  y="312" font-family="'Courier Prime',monospace" font-size="7" fill="#8c7a52" letter-spacing="1.5" opacity=".8">VOLUME</text>
+          <rect x="150" y="292" width="100" height="6" rx="3" fill="#c4b896" stroke="#b8a87a" stroke-width=".75"/>
+          <rect x="188" y="290" width="26"  height="10" rx="4" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+          <text x="150" y="312" font-family="'Courier Prime',monospace" font-size="7" fill="#8c7a52" letter-spacing="1.5" opacity=".8">TONE</text>
+          <text x="160" y="350" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="22" fill="#2a1f0e" letter-spacing="6" opacity=".35">PORTAPLAY</text>
+          <text x="160" y="367" text-anchor="middle" font-family="'Courier Prime',monospace" font-size="7.5" fill="#8c7a52" letter-spacing="3" opacity=".6">HI-FI STEREO · MODEL TC-46</text>
+          <rect x="0" y="430" width="320" height="10" rx="0" fill="#d94f1a" opacity=".7"/>
+          <rect x="0" y="440" width="320" height="8"  fill="#e09010" opacity=".7"/>
+          <rect x="0" y="448" width="320" height="8"  fill="#1a8a8a" opacity=".7"/>
+          <circle cx="28"  cy="445" r="7" fill="#c8bfa0" stroke="#b8a87a" stroke-width="1"/>
+          <circle cx="28"  cy="445" r="3" fill="#a09070"/>
+          <circle cx="16"  cy="454" r="3" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+          <circle cx="304" cy="454" r="3" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".75"/>
+        </svg>
+      </div>
+
+      <!-- DOOR — swings open (rotateX toward viewer), cassette drops in, door closes -->
+      <div class="wdoor" id="door">
+        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <rect x="0" y="0" width="320" height="200" rx="10" fill="#e0d6ba" stroke="#b8a87a" stroke-width="1.5"/>
+          <rect x="6" y="6" width="308" height="188" rx="7" fill="#e6dcbf" stroke="#c4b896" stroke-width=".75"/>
+          <!-- clear window -->
+          <rect x="24" y="20" width="272" height="150" rx="6" fill="rgba(232,220,190,0.15)" stroke="#c4b896" stroke-width="1"/>
+          <rect x="26" y="22" width="120" height="8" rx="3" fill="rgba(255,248,230,0.45)"/>
+          <rect x="26" y="22" width="6"   height="60" rx="3" fill="rgba(255,248,230,0.25)"/>
+          <text x="160" y="186" text-anchor="middle" font-family="'Courier Prime',monospace" font-size="8" fill="#8c7a52" letter-spacing="2" opacity=".7">◁ AUTO REVERSE ▷</text>
+          <rect x="258" y="174" width="46" height="14" rx="2" fill="#d0c4a0" stroke="#b8a87a" stroke-width=".5"/>
+          <text x="281" y="184" text-anchor="middle" font-family="'Courier Prime',monospace" font-size="6" fill="#8c7a52" letter-spacing="1" opacity=".8">DOLBY NR</text>
+          <rect x="130" y="194" width="60" height="6" rx="3" fill="#c4b896" opacity=".6"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div style="background:var(--brown);color:var(--cream);padding:12px 0;overflow:hidden;white-space:nowrap">
+  <span style="display:inline-block;animation:tick 22s linear infinite;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase">
+    Product Design<span style="color:var(--rust);margin:0 24px">✦</span>UX Research<span style="color:var(--rust);margin:0 24px">✦</span>Interaction Design<span style="color:var(--rust);margin:0 24px">✦</span>Usability Testing<span style="color:var(--rust);margin:0 24px">✦</span>Figma<span style="color:var(--rust);margin:0 24px">✦</span>Design Systems<span style="color:var(--rust);margin:0 24px">✦</span>User Flows<span style="color:var(--rust);margin:0 24px">✦</span>Wireframing<span style="color:var(--rust);margin:0 24px">✦</span>Branchout<span style="color:var(--rust);margin:0 24px">✦</span>Rivvy.io<span style="color:var(--rust);margin:0 24px">✦</span>WonderBound<span style="color:var(--rust);margin:0 24px">✦</span>&nbsp;&nbsp;Product Design<span style="color:var(--rust);margin:0 24px">✦</span>UX Research<span style="color:var(--rust);margin:0 24px">✦</span>Interaction Design<span style="color:var(--rust);margin:0 24px">✦</span>Usability Testing<span style="color:var(--rust);margin:0 24px">✦</span>Figma<span style="color:var(--rust);margin:0 24px">✦</span>Design Systems<span style="color:var(--rust);margin:0 24px">✦</span>User Flows<span style="color:var(--rust);margin:0 24px">✦</span>Wireframing<span style="color:var(--rust);margin:0 24px">✦</span>Branchout<span style="color:var(--rust);margin:0 24px">✦</span>Rivvy.io<span style="color:var(--rust);margin:0 24px">✦</span>WonderBound<span style="color:var(--rust);margin:0 24px">✦</span>
+  </span>
+</div>
+
+<!-- WORK -->
+<section style="border-top:1px solid rgba(42,31,14,.2);padding:80px 72px" id="work">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:64px" class="reveal">
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:96px;line-height:1;color:var(--brown);letter-spacing:3px">WORK<br><span style="-webkit-text-stroke:2px var(--brown);color:transparent">CASES.</span></h2>
+    <a href="#" style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sand);text-decoration:none;border-bottom:1px solid var(--sand);padding-bottom:2px;margin-bottom:16px">View all →</a>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(42,31,14,.15)" class="reveal">
+    <div style="background:var(--cream);padding:48px;grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;cursor:none;transition:background .3s" onmouseover="this.style.background='var(--parch)'" onmouseout="this.style.background='var(--cream)'">
+      <div>
+        <div style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;color:var(--sand);margin-bottom:16px">01 — Featured</div>
+        <div style="width:44px;height:44px;border-radius:8px;background:var(--parch);border:1px solid rgba(42,31,14,.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--sand)">BR</div>
+        <span style="display:inline-block;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);background:var(--rust);padding:4px 10px;margin-bottom:16px">UX/UI Design</span>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;letter-spacing:2px;color:var(--brown);margin-bottom:12px">BRANCHOUT</h3>
+        <p style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:300;color:var(--sand);line-height:1.5;max-width:320px;margin-bottom:32px">End-to-end product design for a community social platform — zero to beta, 10K+ users.</p>
+        <a href="branchout.html" style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border-bottom:1px solid var(--brown);padding-bottom:2px;text-decoration:none">View Case Study →</a>
+      </div>
+      <div style="background:var(--parch);border:1px solid rgba(42,31,14,.15);aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0,transparent 20px,rgba(42,31,14,.04) 20px,rgba(42,31,14,.04) 40px)"></div>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--warm);z-index:1">BRANCHOUT</span>
+      </div>
+    </div>
+    <div style="background:var(--cream);padding:48px;cursor:none;transition:background .3s" onmouseover="this.style.background='var(--parch)'" onmouseout="this.style.background='var(--cream)'">
+      <div style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;color:var(--sand);margin-bottom:16px">02</div>
+      <div style="width:44px;height:44px;border-radius:8px;background:var(--parch);border:1px solid rgba(42,31,14,.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--sand)">RV</div>
+      <span style="display:inline-block;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);background:var(--rust);padding:4px 10px;margin-bottom:16px">UX Research</span>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;letter-spacing:2px;color:var(--brown);margin-bottom:12px">RIVVY.IO</h3>
+      <p style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:300;color:var(--sand);line-height:1.5;max-width:320px;margin-bottom:32px">Usability testing + UI redesign to reduce friction and improve conversion.</p>
+      <a href="rivvy.html" style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border-bottom:1px solid var(--brown);padding-bottom:2px;text-decoration:none">View Case Study →</a>
+    </div>
+    <div style="background:var(--cream);padding:48px;cursor:none;transition:background .3s" onmouseover="this.style.background='var(--parch)'" onmouseout="this.style.background='var(--cream)'">
+      <div style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;color:var(--sand);margin-bottom:16px">03</div>
+      <div style="width:44px;height:44px;border-radius:8px;background:var(--parch);border:1px solid rgba(42,31,14,.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--sand)">WB</div>
+      <span style="display:inline-block;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);background:var(--rust);padding:4px 10px;margin-bottom:16px">UX Design</span>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:48px;line-height:1;letter-spacing:2px;color:var(--brown);margin-bottom:12px">WONDER&shy;BOUND</h3>
+      <p style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:300;color:var(--sand);line-height:1.5;max-width:320px;margin-bottom:32px">User testing and flow redesign for mobile app and web platform.</p>
+      <a href="wonderbound.html" style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border-bottom:1px solid var(--brown);padding-bottom:2px;text-decoration:none">View Case Study →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section style="display:grid;grid-template-columns:1fr 2fr;border-top:1px solid rgba(42,31,14,.2)" id="about">
+  <div style="padding:80px 48px;border-right:1px solid rgba(42,31,14,.2);display:flex;flex-direction:column;gap:32px" class="reveal">
+    <span style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;color:var(--sand)">// 02</span>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;color:var(--brown);letter-spacing:3px;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg)">ABOUT</div>
+  </div>
+  <div style="padding:80px 72px" class="reveal">
+    <p style="font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:300;line-height:1.5;color:var(--brown);max-width:560px;margin-bottom:32px">I'm a <strong style="font-weight:700;color:var(--rust)">Product Designer and UX Researcher</strong> based in Santa Barbara — with a background in Psychology that turns user research into something more than a checkbox.</p>
+    <p style="font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:300;line-height:1.5;color:var(--brown);max-width:560px;margin-bottom:32px">Three years embedded in early-stage tech, learning how to build products that real people actually want to use. I care about the gap between how something <strong style="font-weight:700;color:var(--rust)">looks</strong> and how it <strong style="font-weight:700;color:var(--rust)">works</strong>.</p>
+    <div class="stripes" style="width:220px;margin-top:8px">
+      <div class="stripe s1"></div><div class="stripe s2"></div><div class="stripe s3"></div><div class="stripe s4"></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:40px">
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">Figma</span>
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">User Research</span>
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">Usability Testing</span>
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">Wireframing</span>
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">Prototyping</span>
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">Design Systems</span>
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">Psychology B.A.</span>
+      <span style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--brown);border:1px solid rgba(42,31,14,.3);padding:6px 14px">Dean's List</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section style="border-top:1px solid rgba(42,31,14,.2);background:var(--brown);padding:100px 72px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;overflow:hidden" id="contact">
+  <div style="position:absolute;top:0;right:0;width:300px;height:100%;background:repeating-linear-gradient(to bottom,var(--rust) 0,var(--rust) 60px,var(--gold) 60px,var(--gold) 120px,var(--teal) 120px,var(--teal) 180px,var(--sand) 180px,var(--sand) 240px);opacity:.12"></div>
+  <div class="reveal">
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:96px;line-height:.92;color:var(--cream);letter-spacing:3px">LET'S<br><span style="-webkit-text-stroke:2px var(--cream);color:transparent">TALK.</span></h2>
+    <p style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:300;color:var(--warm);line-height:1.6;margin-bottom:40px;margin-top:24px">Open to full-time Product Design and UX Research roles. Based in Santa Barbara — available remotely or to relocate.</p>
+    <a href="mailto:liam.oshea117@gmail.com" style="font-family:'Courier Prime',monospace;font-size:15px;letter-spacing:1px;color:var(--cream);text-decoration:none;border-bottom:1px solid var(--rust);padding-bottom:4px;display:inline-block;margin-bottom:40px">liam.oshea117@gmail.com</a><br>
+    <a href="#" class="btn btn-p" style="margin-top:8px">Download Resume</a>
+  </div>
+  <div class="reveal">
+    <div class="stripes" style="width:100%;max-width:360px;margin-bottom:40px">
+      <div class="stripe s1" style="height:12px"></div><div class="stripe s2" style="height:12px"></div>
+      <div class="stripe s3" style="height:12px"></div><div class="stripe s4" style="height:12px"></div>
+      <div class="stripe s5" style="height:12px"></div>
+    </div>
+    <p style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:2px;color:#8c7a52;text-transform:uppercase;line-height:2.2">Santa Barbara, CA<br>Available Now<br>Product Design · UX Research<br>Est. 2022</p>
+  </div>
+</section>
+
+<footer style="background:var(--dk);padding:24px 72px;display:flex;align-items:center;justify-content:space-between">
+  <p style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sand)">© 2026 Liam O'Shea</p>
+  <div style="display:flex;gap:4px">
+    <span style="display:block;width:20px;height:4px;background:#d94f1a"></span>
+    <span style="display:block;width:20px;height:4px;background:#e09010"></span>
+    <span style="display:block;width:20px;height:4px;background:#1a8a8a"></span>
+    <span style="display:block;width:20px;height:4px;background:#8c7a52"></span>
+    <span style="display:block;width:20px;height:4px;background:#2a1f0e"></span>
+  </div>
+  <p style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sand)">Santa Barbara, CA</p>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(a);})();
+
+/* Animation timeline:
+   0.3s  — door starts opening
+   0.9s  — door fully open
+   1.4s  — cassette starts falling
+   2.1s  — cassette settled in well
+   2.15s — door starts closing
+   2.65s — door fully closed
+   2.7s  — hide cassette SVG (now behind door), spin reels */
+
+setTimeout(()=>{
+  document.getElementById('cassette').classList.add('hidden-by-door');
+},2500);
+
+setTimeout(()=>{
+  ['w-rl','w-rr','t-rl','t-rr'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.add('spin');
+  });
+},2700);
+
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
